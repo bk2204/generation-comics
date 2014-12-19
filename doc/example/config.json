@@ -1,0 +1,20 @@
+{
+	"comics":{
+		"dilbert":{
+			"name":"Dilbert",
+			"comics":{
+				"daily":{
+					"website": "http://www.dilbert.com/strips/comic/%F/",
+					"link": "http://www.dilbert.com/strips/comic/%F/",
+					"type":"link",
+					"frequency":"daily"
+				}
+			}
+		}
+	},
+	"config": {
+		"id":"https://comics.crustytoothpaste.net/",
+		"default":{
+		}
+	}
+}
