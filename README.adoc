@@ -1,0 +1,14 @@
+Generation Comics
+=================
+
+This is a tool to generate daily feeds automatically.
+
+== FAQ
+
+Why did you write this tool?::
+	I got tired of the link in the Dilbert feed being broken.
+
+== License
+
+Generation Comics is licensed under the MIT License.  See the `LICENSE` file for
+more details.
