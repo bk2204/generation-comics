@@ -49,6 +49,8 @@ module Comics
   class Comic
     include Enumerable
 
+    attr_reader :tag
+
     def initialize(config, tag, data, defaults)
       @config = config
       @tag = tag
@@ -92,9 +94,17 @@ module Comics
   end
 
   class Configuration
+    include Enumerable
+
     def initialize(source=nil)
       source = File.new('config.json') if source.nil?
       @data = JSON.load(source)
+    end
+
+    def each(&block)
+      @data['comics'].each do |tag, data|
+        yield Comic.new self, tag, data, @data["config"]["default"]
+      end
     end
 
     def comic(tag)

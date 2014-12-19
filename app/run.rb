@@ -13,7 +13,7 @@ configure do
 end
 
 get '/' do
-  erb :index
+  erb :index, locals: { comics: comics }
 end
 
 get '/comics/:name/atom' do

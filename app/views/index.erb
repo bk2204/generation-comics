@@ -1,0 +1,17 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Generation Comics</title>
+</head>
+<body>
+	<p>This is a <a
+	  href="https://github.com/bk2204/generation-comics">Generation Comics</a>
+	instance, serving feeds from this very location.</p>
+	<p>Currently, this instance is serving the following feeds:
+	<ul>
+		<% comics.sort { |c| c.name }.each do |c| %>
+			<li><%= c.name %> (<a href="comics/<%= c.tag %>/atom">Atom</a>)</li>
+		<% end %>
+	</ul>
+	</p>
+</body>
+</html>
