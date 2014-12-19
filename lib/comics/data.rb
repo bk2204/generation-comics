@@ -117,5 +117,9 @@ module Comics
     def tag_prefix
       @data['config']['id']
     end
+
+    def css_url
+      @data['config']['css']
+    end
   end
 end

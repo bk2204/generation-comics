@@ -14,6 +14,7 @@
 	},
 	"config": {
 		"id":"https://comics.crustytoothpaste.net/",
+		"css":"//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css",
 		"default":{
 		}
 	}
