@@ -25,6 +25,7 @@ end
 configure do
   mime_type :xhtml5, 'application/xhtml+xml'
   mime_type :atom, 'application/atom+xml'
+  mime_type :rss10, 'application/rss+xml; version="http://purl.org/rss/1.0/"'
   mime_type :plain, 'text/plain; charset=UTF-8'
 end
 
@@ -47,5 +48,12 @@ get '/comics/:name/feed' do
   without_errors do
     comic = comics.comic params['name']
     erb :atom, locals: { comic: comic }, content_type: :atom
+  end
+end
+
+get '/comics/:name/rss10' do
+  without_errors do
+    comic = comics.comic params['name']
+    erb :rss10, locals: { comic: comic }, content_type: :rss10
   end
 end
