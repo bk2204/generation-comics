@@ -3,7 +3,6 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 require 'sinatra'
 
 require 'comics/data'
-require 'comics/feed'
 require 'comics/version'
 
 comics = Comics::Configuration.new
@@ -17,11 +16,11 @@ get '/' do
 end
 
 get '/comics/:name/atom' do
-  content_type :atom
-  body Comics::Feed::Atom.new(comics.comic(params['name'])).render
+  comic = comics.comic params['name']
+  erb :atom, locals: { comic: comic }, content_type: :atom
 end
 
 get '/comics/:name/feed' do
-  content_type :atom
-  body Comics::Feed::Atom.new(comics.comic(params['name'])).render
+  comic = comics.comic params['name']
+  erb :atom, locals: { comic: comic }, content_type: :atom
 end

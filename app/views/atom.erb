@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<title><%= comic.name.encode(xml: :text) %> Comic Feed</title>
+	<id><%= comic.id %></id>
+	<generator><%= Comics::Version.to_s %></generator>
+	<updated><%= comic.first.date("%FT%TZ") %></updated>
+	<% comic.each do |entry| %>
+		<entry>
+			<title><%= comic.name.encode(xml: :text)
+				%> for <%= entry.date("%F") %></title>
+			<id><%= entry.id %></id>
+			<updated><%= entry.date("%FT%TZ") %></updated>
+			<content type="xhtml">
+				<div xmlns="http://www.w3.org/1999/xhtml">
+					<% if entry.link_only? %>
+						<p><%= entry.html_message %></p>
+					<% else %>
+						<img src="<%= entry.image %>"/>
+					<% end %>
+				</div>
+			</content>
+		</entry>
+	<% end %>
+</feed>
