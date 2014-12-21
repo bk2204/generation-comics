@@ -23,9 +23,12 @@ def without_errors
 end
 
 configure do
+  mime_type :xhtml5, 'application/xhtml+xml'
   mime_type :atom, 'application/atom+xml'
   mime_type :plain, 'text/plain; charset=UTF-8'
 end
+
+set :erb, content_type: :xhtml5
 
 get '/' do
   without_errors do
