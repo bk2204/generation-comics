@@ -6,11 +6,19 @@ module Comics
     def status
       500
     end
+
+    def to_s
+      'Something bad happened.'
+    end
   end
 
   class NotFoundError < ComicError
     def status
       404
+    end
+
+    def to_s
+      "That item wasn't found."
     end
   end
 
