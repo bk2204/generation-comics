@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<title>Generation Comics</title>
-	<link rel="stylesheet" href="<%= comics.css_url %>"/>
-</head>
-<body>
-	<div class="content container">
-	<div class="titlepage" id="header"><h1>Generation Comics</h1></div>
-	<div class="flow" id="main">
-	<p>This is a <a
-	  href="https://github.com/bk2204/generation-comics">Generation Comics</a>
-	instance, serving feeds from this very location.</p>
-	<p>Currently, this instance is serving the following feeds:
-	<ul>
-		<% comics.sort { |c| c.name }.each do |c| %>
-			<li><%= c.name %> (<a href="comics/<%= c.tag %>/atom">Atom</a>)</li>
-		<% end %>
-	</ul>
-	</p>
-	</div></div>
-</body>
+  <head>
+    <title>Generation Comics</title>
+    <link rel="stylesheet" href="<%= comics.css_url %>"/>
+  </head>
+  <body>
+    <div class="content container">
+      <div class="titlepage" id="header"><h1>Generation Comics</h1></div>
+      <div class="flow" id="main">
+        <p>This is a <a
+           href="https://github.com/bk2204/generation-comics">Generation Comics</a>
+        instance, serving feeds from this very location.</p>
+        <p>Currently, this instance is serving the following feeds:
+        <ul>
+          <% comics.sort { |c| c.name }.each do |c| %>
+            <li><%= c.name %> (<a href="comics/<%= c.tag %>/atom">Atom</a>)</li>
+          <% end %>
+        </ul>
+        </p>
+      </div>
+    </div>
+  </body>
 </html>
+<!-- vim: set tw=2 sw=2 sts=2 et: -->
