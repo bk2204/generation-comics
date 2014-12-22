@@ -9,6 +9,7 @@
       <title><%= comic.name.encode(xml: :text)
         %> for <%= entry.date("%F") %></title>
       <id><%= entry.id %></id>
+      <link rel="alternate" href="<%= entry.link %>"/>
       <updated><%= entry.date("%FT%TZ") %></updated>
       <content type="xhtml">
         <div xmlns="http://www.w3.org/1999/xhtml">

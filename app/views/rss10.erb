@@ -22,7 +22,7 @@
     <item rdf:about="<%= entry.id %>">
       <title><%= comic.name.encode(xml: :text)
         %> for <%= entry.date("%F") %></title>
-      <link/>
+      <link><%= entry.link %></link>
       <content:items>
         <rdf:Bag>
           <rdf:li>

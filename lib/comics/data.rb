@@ -31,12 +31,12 @@ module Comics
   end
 
   class Entry
-    attr_reader :id, :image
+    attr_reader :id, :image, :link
 
     def initialize(id, date, website, image=nil)
       @id = id
       @date = date
-      @website = @date.strftime(website)
+      @link = @date.strftime(website)
       @image = @date.strftime(image) if image
     end
 
@@ -50,7 +50,7 @@ module Comics
     end
 
     def html_message
-      %(<a href="#{@website}">Click here to view the comic.</a>)
+      %(<a href="#{@link}">Click here to view the comic.</a>)
     end
   end
 
