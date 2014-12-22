@@ -50,7 +50,7 @@ module Comics
     end
 
     def html_message
-      %(<p><a href="#{@website}">Click here to view the comic.</a></p>)
+      %(<a href="#{@website}">Click here to view the comic.</a>)
     end
   end
 
