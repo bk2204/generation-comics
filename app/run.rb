@@ -22,6 +22,13 @@ def without_errors
   end
 end
 
+def render_feed(comics, name, type)
+  without_errors do
+    comic = comics.comic name
+    erb type, locals: { comic: comic }, content_type: type
+  end
+end
+
 configure do
   mime_type :xhtml5, 'application/xhtml+xml'
   mime_type :atom, 'application/atom+xml'
@@ -38,22 +45,13 @@ get '/' do
 end
 
 get '/comics/:name/atom' do
-  without_errors do
-    comic = comics.comic params['name']
-    erb :atom, locals: { comic: comic }, content_type: :atom
-  end
+  render_feed comics, params[:name], :atom
 end
 
 get '/comics/:name/feed' do
-  without_errors do
-    comic = comics.comic params['name']
-    erb :atom, locals: { comic: comic }, content_type: :atom
-  end
+  render_feed comics, params[:name], :atom
 end
 
 get '/comics/:name/rss10' do
-  without_errors do
-    comic = comics.comic params['name']
-    erb :rss10, locals: { comic: comic }, content_type: :rss10
-  end
+  render_feed comics, params[:name], :rss10
 end
