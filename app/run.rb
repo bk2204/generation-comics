@@ -15,7 +15,7 @@ def without_errors
     content_type :plain
     body e.to_s
   rescue
-    e = ComicError.new
+    e = Comics::ComicError.new
     status e.status
     content_type :plain
     body e.to_s
