@@ -49,7 +49,9 @@ get '/comics/:name/atom' do
 end
 
 get '/comics/:name/feed' do
-  render_feed comics, params[:name], :atom
+  types = { 'application/atom+xml' => :atom, 'application/rss+xml' => :rss10 }
+  t = request.preferred_type(types.keys)
+  render_feed comics, params[:name], types[t]
 end
 
 get '/comics/:name/rss10' do
