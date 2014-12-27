@@ -2,6 +2,7 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
 require 'sinatra'
 require "sinatra/reloader" if development?
+require 'sinatra/respond_with'
 
 require 'comics/data'
 require 'comics/version'
@@ -23,17 +24,16 @@ def without_errors
   end
 end
 
-def render_feed(comics, name, type)
+def render_feed(comics, name)
   without_errors do
-    comic = comics.comic name
-    erb type, locals: { comic: comic }, content_type: type
+    respond_with :feed, comic: comics.comic(name)
   end
 end
 
 configure do
   mime_type :xhtml5, 'application/xhtml+xml'
   mime_type :atom, 'application/atom+xml'
-  mime_type :rss10, 'application/rss+xml; version="http://purl.org/rss/1.0/"'
+  mime_type :rss10, 'application/rss+xml'
   mime_type :plain, 'text/plain; charset=UTF-8'
 end
 
@@ -45,16 +45,14 @@ get '/' do
   end
 end
 
-get '/comics/:name/atom' do
-  render_feed comics, params[:name], :atom
+get '/comics/:name/atom', :provides => [:atom] do
+  render_feed comics, params[:name]
 end
 
-get '/comics/:name/feed' do
-  types = { 'application/atom+xml' => :atom, 'application/rss+xml' => :rss10 }
-  t = request.preferred_type(types.keys)
-  render_feed comics, params[:name], types[t]
+get '/comics/:name/feed', :provides => [:atom, :rss10] do
+  render_feed comics, params[:name]
 end
 
-get '/comics/:name/rss10' do
-  render_feed comics, params[:name], :rss10
+get '/comics/:name/rss10', :provides => [:rss10] do
+  render_feed comics, params[:name]
 end
