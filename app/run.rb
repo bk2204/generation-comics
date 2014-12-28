@@ -7,7 +7,10 @@ require 'sinatra/respond_with'
 require 'comics/data'
 require 'comics/version'
 
-comics = Comics::Configuration.new
+def comics
+  data_file = ENV['COMICS_DATA_FILE']
+  Comics::Configuration.new(data_file ? File.new(data_file) : nil)
+end
 
 def without_errors
   begin
