@@ -117,7 +117,6 @@ module Comics
 
     def comic(tag)
       data = @data['comics'][tag]
-      $stderr.puts data.inspect
       fail NotFoundError, "I don't know about that comic." unless data
       Comic.new self, tag, data, @data["config"]["default"]
     end
