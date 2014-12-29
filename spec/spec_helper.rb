@@ -11,12 +11,14 @@ if ENV['COVERAGE']
   SimpleCov.start 'rails'
 end
 
-namespaces = {
-  'a'   => 'http://www.w3.org/2005/Atom',
-  'dc'  => 'http://purl.org/dc/elements/1.1',
-  'r1'  => 'http://purl.org/rss/1.0/',
-  'rdf' => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
-}
+def namespaces
+  {
+    'a'   => 'http://www.w3.org/2005/Atom',
+    'dc'  => 'http://purl.org/dc/elements/1.1',
+    'r1'  => 'http://purl.org/rss/1.0/',
+    'rdf' => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+  }
+end
 
 RSpec::Matchers.define :have_xpath do |path, *args|
   match do |doc|
