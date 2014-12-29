@@ -19,7 +19,8 @@ def without_errors
     status e.status
     content_type :plain
     body e.to_s
-  rescue
+  rescue StandardError => e
+    raise e if settings.development?
     e = Comics::ComicError.new
     status e.status
     content_type :plain
