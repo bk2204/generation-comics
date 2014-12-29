@@ -73,6 +73,10 @@ module Comics
       @data['name'] || 'Mystery Comic'
     end
 
+    def author
+      @data['author'] || 'Someone unknown'
+    end
+
     def each(&block)
       res = []
       count.times do |i|

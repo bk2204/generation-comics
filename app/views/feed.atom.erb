@@ -2,6 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title><%= comic.name.encode(xml: :text) %> Comic Feed</title>
   <id><%= comic.id %></id>
+  <author><name><%= comic.author %></name></author>
   <generator><%= Comics::Version.to_s %></generator>
   <updated><%= comic.first.date("%FT%TZ") %></updated>
   <% comic.each do |entry| %>

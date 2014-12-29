@@ -22,6 +22,14 @@ describe 'the feed generator' do
     expect(body).to have_xpath('/a:feed/a:entry', DEFAULT_FEED_COUNT)
   end
 
+  it 'generates Atom feeds with an author' do
+    get '/comics/dilbert/atom'
+    body = last_response.body
+    expect(body).to have_xpath('/a:feed/a:author')
+    expect(body).to have_xpath('/a:feed/a:author/a:name')
+    expect(body).to have_xpath('/a:feed/a:author/a:name/text()')
+  end
+
   it 'generates valid IDs for Atom' do
     get '/comics/dilbert/atom'
     body = Nokogiri::XML(last_response.body)
