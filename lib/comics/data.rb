@@ -95,6 +95,10 @@ module Comics
       id_for :comic, @today
     end
 
+    def link
+      @data['comics']['daily']['website']
+    end
+
     private
     def count
       5
