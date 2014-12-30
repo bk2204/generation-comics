@@ -4,7 +4,7 @@
 			"name":"Dilbert",
 			"comics":{
 				"daily":{
-					"website": "http://www.dilbert.com/strips/comic/%F/",
+					"website": "http://www.dilbert.com/strips/comic/",
 					"link": "http://www.dilbert.com/strips/comic/%F/",
 					"type":"link",
 					"frequency":"daily"
