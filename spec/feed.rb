@@ -46,4 +46,20 @@ describe 'the feed generator' do
     # Verify that each ID is unique.
     expect(all_ids.map(&:to_s).uniq.length).to eq(DEFAULT_FEED_COUNT + 1)
   end
+
+  it 'generates valid XML for RSS 1.0' do
+    get '/comics/dilbert/rss10'
+    expect(last_response).to be_ok
+    expect(last_response.body).to be_well_formed
+  end
+
+  it 'generates valid RSS 1.0' do
+    get '/comics/dilbert/rss10'
+    body = last_response.body
+    expect(body).to have_xpath('/rdf:RDF')
+    expect(body).to have_xpath('/rdf:RDF/r1:channel')
+    expect(body).to have_xpath('/rdf:RDF/r1:channel/r1:items/rdf:Seq/rdf:li',
+                               DEFAULT_FEED_COUNT)
+    expect(body).to have_xpath('/rdf:RDF/r1:item', DEFAULT_FEED_COUNT)
+  end
 end
