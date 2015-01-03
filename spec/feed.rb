@@ -62,4 +62,14 @@ describe 'the feed generator' do
                                DEFAULT_FEED_COUNT)
     expect(body).to have_xpath('/rdf:RDF/r1:item', DEFAULT_FEED_COUNT)
   end
+
+  it 'has rdf:li elements that match item tags in RSS 1.0' do
+    get '/comics/dilbert/rss10'
+    body = Nokogiri::XML(last_response.body)
+
+    items_xpath = '/rdf:RDF/r1:channel/r1:items/rdf:Seq/rdf:li/@rdf:resource'
+    body.xpath(items_xpath, namespaces).map(&:to_s).each do |url|
+      expect(body).to have_xpath("/rdf:RDF/r1:item[@rdf:about = '#{url}']", 1)
+    end
+  end
 end
