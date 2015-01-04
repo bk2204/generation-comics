@@ -72,4 +72,24 @@ describe 'the feed generator' do
       expect(body).to have_xpath("/rdf:RDF/r1:item[@rdf:about = '#{url}']", 1)
     end
   end
+
+  it 'generates RSS 1.0 items with non-empty titles' do
+    get '/comics/dilbert/rss10'
+    body = last_response.body
+    expect(body).to have_xpath('/rdf:RDF/r1:item/r1:title', DEFAULT_FEED_COUNT)
+    expect(body).to have_xpath('/rdf:RDF/r1:item/r1:title[text()]',
+                               DEFAULT_FEED_COUNT)
+    expect(body).to have_xpath('/rdf:RDF/r1:item/r1:title[not(text() = "")]',
+                               DEFAULT_FEED_COUNT)
+  end
+
+  it 'generates RSS 1.0 items with non-empty link tags' do
+    get '/comics/dilbert/rss10'
+    body = last_response.body
+    expect(body).to have_xpath('/rdf:RDF/r1:item/r1:link', DEFAULT_FEED_COUNT)
+    expect(body).to have_xpath('/rdf:RDF/r1:item/r1:link[text()]',
+                               DEFAULT_FEED_COUNT)
+    expect(body).to have_xpath('/rdf:RDF/r1:item/r1:link[not(text() = "")]',
+                               DEFAULT_FEED_COUNT)
+  end
 end
