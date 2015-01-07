@@ -70,6 +70,7 @@ describe 'the feed generator' do
     items_xpath = '/rdf:RDF/r1:channel/r1:items/rdf:Seq/rdf:li/@rdf:resource'
     body.xpath(items_xpath, namespaces).map(&:to_s).each do |url|
       expect(body).to have_xpath("/rdf:RDF/r1:item[@rdf:about = '#{url}']", 1)
+      expect(url).to match TAG_PATTERN
     end
   end
 
