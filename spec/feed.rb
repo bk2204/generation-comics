@@ -93,4 +93,40 @@ describe 'the feed generator' do
     expect(body).to have_xpath('/rdf:RDF/r1:item/r1:link[not(text() = "")]',
                                DEFAULT_FEED_COUNT)
   end
+
+  it 'generates Atom when only application/atom+xml is specified' do
+    get '/comics/dilbert/feed', {}, {'HTTP_ACCEPT' => 'application/atom+xml'}
+
+    expect(last_response.body).to have_xpath('/a:feed')
+  end
+
+  it 'generates RSS 1.0 when only application/rss+xml is specified' do
+    get '/comics/dilbert/feed', {}, {'HTTP_ACCEPT' => 'application/rss+xml'}
+
+    expect(last_response.body).to have_xpath('/rdf:RDF')
+  end
+
+  it 'generates Atom when application/atom+xml is preferred' do
+    [
+      'application/atom+xml;q=1.0, application/rss+xml;q=0.9',
+      'application/rss+xml;q=0.9, application/atom+xml;q=1.0',
+      'application/atom+xml;q=0.9, application/xhtml+xml;q=1.0',
+    ].each do |s|
+      get '/comics/dilbert/feed', {}, {'HTTP_ACCEPT' => s}
+
+      expect(last_response.body).to have_xpath('/a:feed')
+    end
+  end
+
+  it 'generates RSS 1.0 when application/rss+xml is preferred' do
+    [
+      'application/rss+xml;q=1.0, application/atom+xml;q=0.9',
+      'application/atom+xml;q=0.9, application/rss+xml;q=1.0',
+      'application/rss+xml;q=0.9, application/xhtml+xml;q=1.0',
+    ].each do |s|
+      get '/comics/dilbert/feed', {}, {'HTTP_ACCEPT' => s}
+
+      expect(last_response.body).to have_xpath('/rdf:RDF')
+    end
+  end
 end
