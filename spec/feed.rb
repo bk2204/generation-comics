@@ -15,6 +15,11 @@ describe 'the feed generator' do
     expect(last_response.body).to be_well_formed
   end
 
+  it 'generates the proper content type for Atom' do
+    get '/comics/dilbert/atom'
+    expect(last_response['Content-Type']).to match(/application\/atom\+xml/)
+  end
+
   it 'generates valid Atom' do
     get '/comics/dilbert/atom'
     body = last_response.body
@@ -51,6 +56,11 @@ describe 'the feed generator' do
     get '/comics/dilbert/rss10'
     expect(last_response).to be_ok
     expect(last_response.body).to be_well_formed
+  end
+
+  it 'generates the proper content type for RSS 1.0' do
+    get '/comics/dilbert/rss10'
+    expect(last_response['Content-Type']).to match(/application\/rss\+xml/)
   end
 
   it 'generates valid RSS 1.0' do
