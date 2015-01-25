@@ -38,6 +38,7 @@ configure do
   mime_type :xhtml5, 'application/xhtml+xml'
   mime_type :atom, 'application/atom+xml'
   mime_type :rss10, 'application/rss+xml'
+  mime_type :rdf, 'application/rdf+xml'
   mime_type :plain, 'text/plain; charset=UTF-8'
 end
 
@@ -53,10 +54,10 @@ get '/comics/:name/atom', :provides => [:atom] do
   render_feed comics, params[:name]
 end
 
-get '/comics/:name/feed', :provides => [:atom, :rss10] do
+get '/comics/:name/feed', :provides => [:atom, :rss10, :rdf] do
   render_feed comics, params[:name]
 end
 
-get '/comics/:name/rss10', :provides => [:rss10] do
+get '/comics/:name/rss10', :provides => [:rss10, :rdf] do
   render_feed comics, params[:name]
 end

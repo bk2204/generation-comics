@@ -143,4 +143,17 @@ describe 'the feed generator' do
       expect(last_response['Content-Type']).to match(/application\/rss\+xml/)
     end
   end
+
+  it 'generates RSS 1.0 when application/rdf+xml is preferred' do
+    [
+      'application/rdf+xml;q=1.0, application/atom+xml;q=0.9',
+      'application/atom+xml;q=0.9, application/rdf+xml;q=1.0',
+      'application/rdf+xml;q=0.9, application/xhtml+xml;q=1.0',
+    ].each do |s|
+      get '/comics/dilbert/feed', {}, {'HTTP_ACCEPT' => s}
+
+      expect(last_response.body).to have_xpath('/rdf:RDF')
+      expect(last_response['Content-Type']).to match(/application\/rdf\+xml/)
+    end
+  end
 end
