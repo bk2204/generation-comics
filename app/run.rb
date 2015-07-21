@@ -13,19 +13,17 @@ def comics
 end
 
 def without_errors
-  begin
-    yield
-  rescue Comics::ComicError => e
-    status e.status
-    content_type :plain
-    body e.to_s
-  rescue StandardError => e
-    raise e if settings.development?
-    e = Comics::ComicError.new
-    status e.status
-    content_type :plain
-    body e.to_s
-  end
+  yield
+rescue Comics::ComicError => e
+  status e.status
+  content_type :plain
+  body e.to_s
+rescue StandardError => e
+  raise e if settings.development?
+  e = Comics::ComicError.new
+  status e.status
+  content_type :plain
+  body e.to_s
 end
 
 def render_feed(comics, name)
