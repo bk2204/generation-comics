@@ -20,6 +20,11 @@ describe 'the feed generator' do
     expect(last_response['Content-Type']).to match(/application\/atom\+xml/)
   end
 
+  it 'generates a 404 for nonexistent Atom feeds' do
+    get '/comics/nonexistent/atom'
+    expect(last_response.not_found?).to be true
+  end
+
   it 'generates valid Atom' do
     get '/comics/dilbert/atom'
     body = last_response.body
@@ -62,6 +67,12 @@ describe 'the feed generator' do
     get '/comics/dilbert/rss10'
     expect(last_response['Content-Type']).to match(/application\/rss\+xml/)
   end
+
+  it 'generates a 404 for nonexistent RSS feeds' do
+    get '/comics/nonexistent/rss10'
+    expect(last_response.not_found?).to be true
+  end
+
 
   it 'generates valid RSS 1.0' do
     get '/comics/dilbert/rss10'
