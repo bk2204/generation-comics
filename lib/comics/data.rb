@@ -2,6 +2,7 @@ require 'digest'
 require 'json'
 
 module Comics
+  # A generic base class for exceptions.
   class ComicError < StandardError
     def status
       500
@@ -12,6 +13,7 @@ module Comics
     end
   end
 
+  # An error representing an item which was not found or does not exist.
   class NotFoundError < ComicError
     def status
       404
@@ -22,25 +24,30 @@ module Comics
     end
   end
 
+  # Generate IDs based on a fixed set of arguments.
   class IDGenerator
     def self.generate(prefix, *args)
       hash = Digest::SHA2.new(256)
-      [prefix, *args].each { |v| s = v.to_s; hash << "%d %s" % [s.length, s] }
-      "tag:sandals@crustytoothpaste.net,2013:urn:sha256:id:" + hash.hexdigest
+      [prefix, *args].each do |v|
+        s = v.to_s
+        hash << '%d %s' % [s.length, s]
+      end
+      'tag:sandals@crustytoothpaste.net,2013:urn:sha256:id:' + hash.hexdigest
     end
   end
 
+  # A feed entry.  Equivalent to Atom <entry>.
   class Entry
     attr_reader :id, :image, :link
 
-    def initialize(id, date, website, image=nil)
+    def initialize(id, date, website, image = nil)
       @id = id
       @date = date
       @link = @date.strftime(website)
       @image = @date.strftime(image) if image
     end
 
-    def date(format=nil)
+    def date(format = nil)
       return @date if format.nil?
       @date.strftime(format)
     end
@@ -54,6 +61,7 @@ module Comics
     end
   end
 
+  # A particular comic.
   class Comic
     include Enumerable
 
@@ -77,18 +85,14 @@ module Comics
       @data['author'] || 'Someone unknown'
     end
 
-    def each(&block)
+    def each(&_block)
       res = []
       count.times do |i|
-        date = @today - (86400 * i)
+        date = @today - (86_400 * i)
         id = id_for :entry, date
         res << Entry.new(id, date, @data['comics']['daily']['link'])
       end
-      if block_given?
-        res.each { |e| yield e }
-      else
-        res
-      end
+      block_given? ? res.each { |e| yield e } : res
     end
 
     def id
@@ -100,6 +104,7 @@ module Comics
     end
 
     private
+
     def count
       5
     end
@@ -109,24 +114,25 @@ module Comics
     end
   end
 
+  # Represents the config.json configuration.
   class Configuration
     include Enumerable
 
-    def initialize(source=nil)
+    def initialize(source = nil)
       source = File.new('config.json') if source.nil?
       @data = JSON.load(source)
     end
 
-    def each(&block)
+    def each(&_block)
       @data['comics'].each do |tag, data|
-        yield Comic.new self, tag, data, @data["config"]["default"]
+        yield Comic.new self, tag, data, @data['config']['default']
       end
     end
 
     def comic(tag)
       data = @data['comics'][tag]
       fail NotFoundError, "I don't know about that comic." unless data
-      Comic.new self, tag, data, @data["config"]["default"]
+      Comic.new self, tag, data, @data['config']['default']
     end
 
     def tag_prefix
