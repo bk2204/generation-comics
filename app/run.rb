@@ -1,7 +1,7 @@
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
 require 'sinatra'
-require "sinatra/reloader" if development?
+require 'sinatra/reloader' if development?
 require 'sinatra/respond_with'
 
 require 'comics/data'
@@ -50,14 +50,14 @@ get '/' do
   end
 end
 
-get '/comics/:name/atom', :provides => [:atom] do
+get '/comics/:name/atom', provides: [:atom] do
   render_feed comics, params[:name]
 end
 
-get '/comics/:name/feed', :provides => [:atom, :rss10, :rdf] do
+get '/comics/:name/feed', provides: [:atom, :rss10, :rdf] do
   render_feed comics, params[:name]
 end
 
-get '/comics/:name/rss10', :provides => [:rss10, :rdf] do
+get '/comics/:name/rss10', provides: [:rss10, :rdf] do
   render_feed comics, params[:name]
 end
