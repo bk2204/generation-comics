@@ -66,7 +66,7 @@ describe 'the feed generator' do
 
   it 'generates the proper content type for RSS 1.0' do
     get '/comics/dilbert/rss10'
-    expect(last_response['Content-Type']).to match(%r{application/rss\+xml/})
+    expect(last_response['Content-Type']).to match(%r{application/rss\+xml})
   end
 
   it 'generates a 404 for nonexistent RSS feeds' do
@@ -119,14 +119,14 @@ describe 'the feed generator' do
     get '/comics/dilbert/feed', {}, 'HTTP_ACCEPT' => 'application/atom+xml'
 
     expect(last_response.body).to have_xpath('/a:feed')
-    expect(last_response['Content-Type']).to match(%r{application/atom\+xml/})
+    expect(last_response['Content-Type']).to match(%r{application/atom\+xml})
   end
 
   it 'generates RSS 1.0 when only application/rss+xml is specified' do
     get '/comics/dilbert/feed', {}, 'HTTP_ACCEPT' => 'application/rss+xml'
 
     expect(last_response.body).to have_xpath('/rdf:RDF')
-    expect(last_response['Content-Type']).to match(%r{application/rss\+xml/})
+    expect(last_response['Content-Type']).to match(%r{application/rss\+xml})
   end
 
   it 'generates Atom when application/atom+xml is preferred' do
