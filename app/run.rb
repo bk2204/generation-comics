@@ -12,18 +12,20 @@ def comics
   Comics::Configuration.new(data_file ? File.new(data_file) : nil)
 end
 
+def handle_error(e)
+  status e.status
+  content_type :plain
+  body e.to_s
+end
+
 def without_errors
   yield
 rescue Comics::ComicError => e
-  status e.status
-  content_type :plain
-  body e.to_s
+  handle_error(e)
 rescue StandardError => e
   raise e if settings.development?
   e = Comics::ComicError.new
-  status e.status
-  content_type :plain
-  body e.to_s
+  handle_error(e)
 end
 
 def render_feed(comics, name)
