@@ -2,7 +2,8 @@ require 'spec_helper'
 require_relative '../app/run'
 
 DEFAULT_FEED_COUNT = 5
-TAG_PATTERN = /\Atag:sandals@crustytoothpaste.net,2013:urn:sha256:id:[0-9a-f]{64}\z/
+SCHEME = 'tag:sandals@crustytoothpaste.net,2013'
+TAG_PATTERN = /\A#{SCHEME}:urn:sha256:id:[0-9a-f]{64}\z/
 
 describe 'the feed generator' do
   def app
@@ -17,7 +18,7 @@ describe 'the feed generator' do
 
   it 'generates the proper content type for Atom' do
     get '/comics/dilbert/atom'
-    expect(last_response['Content-Type']).to match(/application\/atom\+xml/)
+    expect(last_response['Content-Type']).to match(%r{application/atom\+xml})
   end
 
   it 'generates a 404 for nonexistent Atom feeds' do
@@ -65,14 +66,13 @@ describe 'the feed generator' do
 
   it 'generates the proper content type for RSS 1.0' do
     get '/comics/dilbert/rss10'
-    expect(last_response['Content-Type']).to match(/application\/rss\+xml/)
+    expect(last_response['Content-Type']).to match(%r{application/rss\+xml/})
   end
 
   it 'generates a 404 for nonexistent RSS feeds' do
     get '/comics/nonexistent/rss10'
     expect(last_response.not_found?).to be true
   end
-
 
   it 'generates valid RSS 1.0' do
     get '/comics/dilbert/rss10'
@@ -116,29 +116,29 @@ describe 'the feed generator' do
   end
 
   it 'generates Atom when only application/atom+xml is specified' do
-    get '/comics/dilbert/feed', {}, {'HTTP_ACCEPT' => 'application/atom+xml'}
+    get '/comics/dilbert/feed', {}, 'HTTP_ACCEPT' => 'application/atom+xml'
 
     expect(last_response.body).to have_xpath('/a:feed')
-    expect(last_response['Content-Type']).to match(/application\/atom\+xml/)
+    expect(last_response['Content-Type']).to match(%r{application/atom\+xml/})
   end
 
   it 'generates RSS 1.0 when only application/rss+xml is specified' do
-    get '/comics/dilbert/feed', {}, {'HTTP_ACCEPT' => 'application/rss+xml'}
+    get '/comics/dilbert/feed', {}, 'HTTP_ACCEPT' => 'application/rss+xml'
 
     expect(last_response.body).to have_xpath('/rdf:RDF')
-    expect(last_response['Content-Type']).to match(/application\/rss\+xml/)
+    expect(last_response['Content-Type']).to match(%r{application/rss\+xml/})
   end
 
   it 'generates Atom when application/atom+xml is preferred' do
     [
       'application/atom+xml;q=1.0, application/rss+xml;q=0.9',
       'application/rss+xml;q=0.9, application/atom+xml;q=1.0',
-      'application/atom+xml;q=0.9, application/xhtml+xml;q=1.0',
+      'application/atom+xml;q=0.9, application/xhtml+xml;q=1.0'
     ].each do |s|
-      get '/comics/dilbert/feed', {}, {'HTTP_ACCEPT' => s}
+      get '/comics/dilbert/feed', {}, 'HTTP_ACCEPT' => s
 
       expect(last_response.body).to have_xpath('/a:feed')
-      expect(last_response['Content-Type']).to match(/application\/atom\+xml/)
+      expect(last_response['Content-Type']).to match(%r{application/atom\+xml})
     end
   end
 
@@ -146,12 +146,12 @@ describe 'the feed generator' do
     [
       'application/rss+xml;q=1.0, application/atom+xml;q=0.9',
       'application/atom+xml;q=0.9, application/rss+xml;q=1.0',
-      'application/rss+xml;q=0.9, application/xhtml+xml;q=1.0',
+      'application/rss+xml;q=0.9, application/xhtml+xml;q=1.0'
     ].each do |s|
-      get '/comics/dilbert/feed', {}, {'HTTP_ACCEPT' => s}
+      get '/comics/dilbert/feed', {}, 'HTTP_ACCEPT' => s
 
       expect(last_response.body).to have_xpath('/rdf:RDF')
-      expect(last_response['Content-Type']).to match(/application\/rss\+xml/)
+      expect(last_response['Content-Type']).to match(%r{application/rss\+xml})
     end
   end
 
@@ -159,12 +159,12 @@ describe 'the feed generator' do
     [
       'application/rdf+xml;q=1.0, application/atom+xml;q=0.9',
       'application/atom+xml;q=0.9, application/rdf+xml;q=1.0',
-      'application/rdf+xml;q=0.9, application/xhtml+xml;q=1.0',
+      'application/rdf+xml;q=0.9, application/xhtml+xml;q=1.0'
     ].each do |s|
-      get '/comics/dilbert/feed', {}, {'HTTP_ACCEPT' => s}
+      get '/comics/dilbert/feed', {}, 'HTTP_ACCEPT' => s
 
       expect(last_response.body).to have_xpath('/rdf:RDF')
-      expect(last_response['Content-Type']).to match(/application\/rdf\+xml/)
+      expect(last_response['Content-Type']).to match(%r{application/rdf\+xml})
     end
   end
 end
