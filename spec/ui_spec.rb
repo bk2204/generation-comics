@@ -14,6 +14,6 @@ describe 'the UI' do
 
   it 'lists comics by name on the main page' do
     get '/'
-    expect(last_response.body).to match(/<li>Dilbert.*<\/li>/)
+    expect(last_response.body).to match(%r{<li>Dilbert.*</li>})
   end
 end
