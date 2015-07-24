@@ -24,8 +24,7 @@ rescue Comics::ComicError => e
   handle_error(e)
 rescue StandardError => e
   raise e if settings.development?
-  e = Comics::ComicError.new
-  handle_error(e)
+  handle_error(Comics::ComicError.new)
 end
 
 def render_feed(comics, name)
