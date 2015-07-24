@@ -26,6 +26,19 @@ describe 'the feed generator' do
     expect(last_response.not_found?).to be true
   end
 
+  it 'generates a 500 for internal errors in production' do
+    data_file = ENV['COMICS_DATA_FILE']
+    begin
+      ENV['COMICS_DATA_FILE'] = '/nonexistent'
+      app.environment = 'production'
+      get '/comics/nonexistent/atom'
+      expect(last_response.status).to eq 500
+      expect(last_response.server_error?).to be true
+    ensure
+      ENV['COMICS_DATA_FILE'] = data_file
+    end
+  end
+
   it 'generates valid Atom' do
     get '/comics/dilbert/atom'
     body = last_response.body
