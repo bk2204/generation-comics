@@ -8,6 +8,13 @@ This is a tool to generate daily feeds automatically.
 Why did you write this tool?::
 	I got tired of the link in the Dilbert feed being broken.
 
+What formats does it generate?::
+	Atom 1.0 and RSS 1.0.  Atom is recommended.
+
+Why do you generate XHTML?::
+	Atom and RSS are XML formats.  Generating XML avoids the need for encoding
+	HTML and simplifies the templates significantly.
+
 == License
 
 Generation Comics is licensed under the MIT License.  See the `LICENSE` file for
