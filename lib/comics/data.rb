@@ -1,5 +1,6 @@
 require 'digest'
 require 'json'
+require 'time'
 
 module Comics
   # A generic base class for exceptions.
@@ -74,7 +75,13 @@ module Comics
       @defaults = defaults
 
       now = Time.new.gmtime
-      @today = Time.utc(now.year, now.month, now.day)
+      updatetime = @data['comics']['daily']['time']
+      if updatetime
+        @latest = Time.parse(updatetime, now)
+        @latest -= 86400 if @latest > now
+      else
+        @latest = Time.utc(now.year, now.month, now.day)
+      end
     end
 
     def name
@@ -88,7 +95,7 @@ module Comics
     def each(&_block)
       res = []
       count.times do |i|
-        date = @today - (86_400 * i)
+        date = @latest - (86_400 * i)
         id = id_for :entry, date
         res << Entry.new(id, date, @data['comics']['daily']['link'])
       end
@@ -96,7 +103,7 @@ module Comics
     end
 
     def id
-      id_for :comic, @today
+      id_for :comic, @latest
     end
 
     def link
