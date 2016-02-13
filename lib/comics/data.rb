@@ -73,15 +73,6 @@ module Comics
       @tag = tag
       @data = data
       @defaults = defaults
-
-      now = Time.new.gmtime
-      updatetime = @data['comics']['daily']['time']
-      if updatetime
-        @latest = Time.parse(updatetime, now)
-        @latest -= 86400 if @latest > now
-      else
-        @latest = Time.utc(now.year, now.month, now.day)
-      end
     end
 
     def name
@@ -95,7 +86,7 @@ module Comics
     def each(&_block)
       res = []
       count.times do |i|
-        date = @latest - (86_400 * i)
+        date = latest - (86_400 * i)
         id = id_for :entry, date
         res << Entry.new(id, date, @data['comics']['daily']['link'])
       end
@@ -103,7 +94,7 @@ module Comics
     end
 
     def id
-      id_for :comic, @latest
+      id_for :comic, latest
     end
 
     def link
@@ -118,6 +109,20 @@ module Comics
 
     def id_for(type, date)
       IDGenerator.generate(@config.tag_prefix, type, @tag, date.strftime('%F'))
+    end
+
+    def latest
+      return @latest if @latest
+
+      now = Time.new.gmtime
+      updatetime = @data['comics']['daily']['time']
+      if updatetime
+        @latest = Time.parse(updatetime, now)
+        @latest -= 86_400 if @latest > now
+      else
+        @latest = Time.utc(now.year, now.month, now.day)
+      end
+      @latest
     end
   end
 
