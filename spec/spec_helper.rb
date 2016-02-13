@@ -35,7 +35,7 @@ end
 RSpec::Matchers.define :be_well_formed do
   match do |doc|
     begin
-      Nokogiri::XML(doc) { |config| config.strict }
+      Nokogiri::XML(doc, &:strict)
       true
     rescue
       false
