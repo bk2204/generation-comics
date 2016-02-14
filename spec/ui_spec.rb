@@ -16,4 +16,9 @@ describe 'the UI' do
     get '/'
     expect(last_response.body).to match(%r{<li>Dilbert.*</li>})
   end
+
+  it 'links to Atom feeds on the main page' do
+    get '/'
+    expect(last_response.body).to match(%r{<li>.*Atom.*</li>})
+  end
 end
