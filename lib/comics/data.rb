@@ -66,13 +66,14 @@ module Comics
   class Comic
     include Enumerable
 
-    attr_reader :tag
+    attr_reader :tag, :updatetime
 
     def initialize(config, tag, data, defaults)
       @config = config
       @tag = tag
       @data = data
       @defaults = defaults
+      @updatetime = @data['comics']['daily']['time']
     end
 
     def name
@@ -115,8 +116,7 @@ module Comics
       return @latest if @latest
 
       now = Time.new.gmtime
-      updatetime = @data['comics']['daily']['time']
-      if updatetime
+      if @updatetime
         @latest = Time.parse(updatetime, now)
         @latest -= 86_400 if @latest > now
       else
