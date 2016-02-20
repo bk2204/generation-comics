@@ -14,7 +14,9 @@
         <p>Currently, this instance is serving the following feeds:
         <ul>
           <% comics.sort { |c| c.name }.each do |c| %>
-            <li><%= c.name %> (<a href="comics/<%= c.tag %>/atom">Atom</a>)</li>
+            <li><%= c.name.encode(xml: :text)
+              %> (<a href="comics/<%= c.tag.encode(xml: :text)
+              %>/atom">Atom</a>)</li>
           <% end %>
         </ul>
         </p>

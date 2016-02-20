@@ -5,7 +5,7 @@
   xmlns="http://purl.org/rss/1.0/">
   <channel rdf:about="<%= comic.id %>">
     <title><%= comic.name.encode(xml: :text) %> Comic Feed</title>
-    <link><%= comic.link %></link>
+    <link><%= comic.link.encode(xml: :text) %></link>
     <dc:creator><%= Comics::Version.to_s %></dc:creator>
     <description>Comic feed for <%= comic.name.encode(xml: :text)
       %></description>
@@ -22,7 +22,7 @@
     <item rdf:about="<%= entry.id %>">
       <title><%= comic.name.encode(xml: :text)
         %> for <%= entry.date("%F") %></title>
-      <link><%= entry.link %></link>
+      <link><%= entry.link.encode(xml: :text) %></link>
       <content:items>
         <rdf:Bag>
           <rdf:li>
@@ -35,7 +35,7 @@
                   <% if entry.link_only? %>
                     <p><%= entry.html_message %></p>
                   <% else %>
-                    <img src="<%= entry.image %>"/>
+                    <img src="<%= entry.image.encode(xml: :text) %>"/>
                   <% end %>
                 </div>
               </rdf:value>
