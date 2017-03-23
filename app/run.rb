@@ -14,25 +14,8 @@ def comics
   Comics::Configuration.new(data_file ? File.new(data_file) : nil)
 end
 
-def handle_error(e)
-  status e.status
-  content_type :plain
-  body e.to_s
-end
-
-def without_errors
-  yield
-rescue Comics::ComicError => e
-  handle_error(e)
-rescue StandardError => e
-  raise e if settings.development?
-  handle_error(Comics::ComicError.new)
-end
-
 def render_feed(comics, name)
-  without_errors do
-    respond_with :feed, comic: comics.comic(name)
-  end
+  respond_with :feed, comic: comics.comic(name)
 end
 
 configure do
@@ -47,31 +30,27 @@ end
 set :erb, content_type: :xhtml5
 
 get '/' do
-  without_errors do
-    erb :index, locals: { comics: comics }
-  end
+  erb :index, locals: { comics: comics }
 end
 
 get '/comics/:name', provides: [:json] do
-  without_errors do
-    c = comics.comic(params[:name])
-    url = "/comics/#{params[:name]}"
-    data = {
-      data: {
-        tag: c.tag,
-        self: url,
-        name: c.name,
-        author: c.author,
-        updatetime: c.updatetime || "00:00",
-        feeds: {
-          "*" => "#{url}/feed",
-          "application/atom+xml" => "#{url}/atom",
-          "application/rdf+xml" => "#{url}/rss10",
-        }
+  c = comics.comic(params[:name])
+  url = "/comics/#{params[:name]}"
+  data = {
+    data: {
+      tag: c.tag,
+      self: url,
+      name: c.name,
+      author: c.author,
+      updatetime: c.updatetime || "00:00",
+      feeds: {
+        "*" => "#{url}/feed",
+        "application/atom+xml" => "#{url}/atom",
+        "application/rdf+xml" => "#{url}/rss10",
       }
     }
-    JSON.generate(data)
-  end
+  }
+  JSON.generate(data)
 end
 
 get '/comics/:name/atom', provides: [:atom] do
@@ -84,4 +63,17 @@ end
 
 get '/comics/:name/rss10', provides: [:rss10, :rdf] do
   render_feed comics, params[:name]
+end
+
+error Comics::ComicError do
+  e = env['sinatra.error']
+  status e.status
+  content_type :plain
+  body e.to_s
+end
+
+error do
+  status 500
+  content_type :plain
+  body env['sinatra.error'].to_s
 end
