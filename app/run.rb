@@ -42,11 +42,11 @@ get '/comics/:name', provides: [:json] do
       self: url,
       name: c.name,
       author: c.author,
-      updatetime: c.updatetime || "00:00",
+      updatetime: c.updatetime || '00:00',
       feeds: {
-        "*" => "#{url}/feed",
-        "application/atom+xml" => "#{url}/atom",
-        "application/rdf+xml" => "#{url}/rss10",
+        '*' => "#{url}/feed",
+        'application/atom+xml' => "#{url}/atom",
+        'application/rdf+xml' => "#{url}/rss10",
       }
     }
   }
