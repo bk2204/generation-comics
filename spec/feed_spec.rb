@@ -2,7 +2,7 @@ require 'spec_helper'
 require_relative '../app/run'
 
 DEFAULT_FEED_COUNT = 5
-SCHEME = 'tag:sandals@crustytoothpaste.net,2013'
+SCHEME = 'tag:sandals@crustytoothpaste.net,2013'.freeze
 TAG_PATTERN = /\A#{SCHEME}:urn:sha256:id:[0-9a-f]{64}\z/
 
 describe 'the feed generator' do

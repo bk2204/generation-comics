@@ -15,7 +15,7 @@ describe 'the JSON data' do
   it 'generates valid JSON' do
     get '/comics/dilbert'
     expect(last_response).to be_ok
-    expect{ JSON.parse(last_response.body) }.not_to raise_error
+    expect { JSON.parse(last_response.body) }.not_to raise_error
   end
 
   it 'generates the proper content type for JSON data' do
@@ -37,11 +37,11 @@ describe 'the JSON data' do
     url = '/comics/dilbert'
     get url
     expect(json[:data][:self]).to eq url
-    expect(json[:data][:feeds][:*]).to eq "/comics/dilbert/feed"
-    expect(json[:data][:feeds][:'application/atom+xml']).to \
-           eq "/comics/dilbert/atom"
-    expect(json[:data][:feeds][:'application/rdf+xml']).to \
-           eq "/comics/dilbert/rss10"
+    expect(json[:data][:feeds][:*]).to eq '/comics/dilbert/feed'
+    expect(json[:data][:feeds][:'application/atom+xml']).to eq \
+      '/comics/dilbert/atom'
+    expect(json[:data][:feeds][:'application/rdf+xml']).to eq \
+      '/comics/dilbert/rss10'
   end
 
   it 'generates valid links' do
