@@ -132,7 +132,7 @@ module Comics
 
     def initialize(source = nil)
       source = File.new('config.json') if source.nil?
-      @data = JSON.load(source)
+      @data = JSON.parse(source)
     end
 
     def each(&_block)
@@ -143,7 +143,7 @@ module Comics
 
     def comic(tag)
       data = @data['comics'][tag]
-      fail NotFoundError, "I don't know about that comic." unless data
+      raise NotFoundError, "I don't know about that comic." unless data
       Comic.new self, tag, data, @data['config']['default']
     end
 
