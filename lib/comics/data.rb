@@ -132,7 +132,7 @@ module Comics
 
     def initialize(source = nil)
       source = File.new('config.json') if source.nil?
-      @data = JSON.parse(source)
+      @data = JSON.parse(source.read)
     end
 
     def each(&_block)
