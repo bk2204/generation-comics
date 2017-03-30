@@ -1,2 +1,7 @@
 Style/FormatString:
     EnforcedStyle: percent
+Metrics/BlockLength:
+    Exclude:
+        - 'Rakefile'
+        - '**/*.rake'
+        - 'spec/**/*.rb'
