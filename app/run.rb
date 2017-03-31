@@ -47,8 +47,8 @@ get '/comics/:name', provides: [:json] do
         '*' => "#{url}/feed",
         'application/atom+xml' => "#{url}/atom",
         'application/rdf+xml' => "#{url}/rss10",
-      }
-    }
+      },
+    },
   }
   JSON.generate(data)
 end

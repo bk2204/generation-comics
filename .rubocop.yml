@@ -1,5 +1,7 @@
 Style/FormatString:
     EnforcedStyle: percent
+Style/TrailingCommaInLiteral:
+    EnforcedStyleForMultiline: comma
 Metrics/BlockLength:
     Exclude:
         - 'Rakefile'

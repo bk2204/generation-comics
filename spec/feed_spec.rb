@@ -146,7 +146,7 @@ describe 'the feed generator' do
     [
       'application/atom+xml;q=1.0, application/rss+xml;q=0.9',
       'application/rss+xml;q=0.9, application/atom+xml;q=1.0',
-      'application/atom+xml;q=0.9, application/xhtml+xml;q=1.0'
+      'application/atom+xml;q=0.9, application/xhtml+xml;q=1.0',
     ].each do |s|
       get '/comics/dilbert/feed', {}, 'HTTP_ACCEPT' => s
 
@@ -159,7 +159,7 @@ describe 'the feed generator' do
     [
       'application/rss+xml;q=1.0, application/atom+xml;q=0.9',
       'application/atom+xml;q=0.9, application/rss+xml;q=1.0',
-      'application/rss+xml;q=0.9, application/xhtml+xml;q=1.0'
+      'application/rss+xml;q=0.9, application/xhtml+xml;q=1.0',
     ].each do |s|
       get '/comics/dilbert/feed', {}, 'HTTP_ACCEPT' => s
 
@@ -172,7 +172,7 @@ describe 'the feed generator' do
     [
       'application/rdf+xml;q=1.0, application/atom+xml;q=0.9',
       'application/atom+xml;q=0.9, application/rdf+xml;q=1.0',
-      'application/rdf+xml;q=0.9, application/xhtml+xml;q=1.0'
+      'application/rdf+xml;q=0.9, application/xhtml+xml;q=1.0',
     ].each do |s|
       get '/comics/dilbert/feed', {}, 'HTTP_ACCEPT' => s
 
