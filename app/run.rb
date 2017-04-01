@@ -57,11 +57,11 @@ get '/comics/:name/atom', provides: [:atom] do
   render_feed comics, params[:name]
 end
 
-get '/comics/:name/feed', provides: [:atom, :rss10, :rdf] do
+get '/comics/:name/feed', provides: %i(atom rss10 rdf) do
   render_feed comics, params[:name]
 end
 
-get '/comics/:name/rss10', provides: [:rss10, :rdf] do
+get '/comics/:name/rss10', provides: %i(rss10 rdf) do
   render_feed comics, params[:name]
 end
 
