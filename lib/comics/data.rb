@@ -115,14 +115,13 @@ module Comics
     def latest
       return @latest if @latest
 
-      now = Time.new.gmtime
-      if @updatetime
-        @latest = Time.parse(updatetime, now)
-        @latest -= 86_400 if @latest > now
-      else
-        @latest = Time.utc(now.year, now.month, now.day)
-      end
-      @latest
+      now = Time.now.gmtime
+      @latest = if @updatetime
+                  parsed = Time.parse(updatetime, now)
+                  parsed > now ? parsed - 86_400 : parsed
+                else
+                  Time.utc(now.year, now.month, now.day)
+                end
     end
   end
 
