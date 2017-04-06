@@ -69,7 +69,7 @@ module Comics
     attr_reader :tag, :updatetime
 
     def initialize(config, tag, data, defaults)
-      @config = config
+      @tag_prefix = config.tag_prefix
       @tag = tag
       @data = data
       @defaults = defaults
@@ -109,7 +109,7 @@ module Comics
     end
 
     def id_for(type, date)
-      IDGenerator.generate(@config.tag_prefix, type, @tag, date.strftime('%F'))
+      IDGenerator.generate(@tag_prefix, type, @tag, date.strftime('%F'))
     end
 
     def latest
