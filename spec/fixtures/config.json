@@ -11,6 +11,18 @@
 					"time":"12:00"
 				}
 			}
+		},
+		"example":{
+			"name":"Example",
+			"comics":{
+				"daily":{
+					"website": "http://www.example.com/strips/comic/",
+					"link": "http://www.example.com/strips/comic/?date=%F&type=comic",
+					"type":"link",
+					"frequency":"daily",
+					"time":"12:00"
+				}
+			}
 		}
 	},
 	"config": {

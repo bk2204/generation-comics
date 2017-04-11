@@ -46,4 +46,9 @@ describe Comics::Comic do
     # will not overlap between the two days.
     expect(entry_pairs[0][0..-2]).to eq entry_pairs[1][1..-1]
   end
+
+  it 'escapes ampersands in generated HTML properly' do
+    c = config.comic('example')
+    expect(c.first.html_message).to match(/&amp;/)
+  end
 end

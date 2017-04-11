@@ -58,7 +58,7 @@ module Comics
     end
 
     def html_message
-      %(<a href="#{@link}">Click here to view the comic.</a>)
+      %(<a href=#{@link.encode(xml: :attr)}>Click here to view the comic.</a>)
     end
   end
 
