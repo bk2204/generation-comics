@@ -7,7 +7,7 @@ describe Comics::Comic do
   let(:main_dir) { File.expand_path(File.join(File.dirname(__FILE__), '..')) }
   let(:config) do
     Comics::Configuration.new(File.new(File.join(main_dir,
-                                                 %w[doc/example/config.json])))
+                                                 'spec/fixtures/config.json')))
   end
 
   it 'handles last update times properly' do
