@@ -19,6 +19,11 @@ won't conflict with other installations.
 Due to the power of Ruby's in-order hash handling, comics should be listed in
 the same order as they're listed in the configuration file.
 
+== Deployment
+
+Deployment is the same as for any Rack application.  To start a test instance,
+simply run `bundle install` and then run `bundle exec ruby app/run.rb`.
+
 == FAQ
 
 Why did you write this tool?::
